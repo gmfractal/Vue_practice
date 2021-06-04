@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>v-if If Statements</title>
+		<meta charset="UTF-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.special {background:yellow; border: 1px dotted #fe0000; padding:30px; display:block; text-align:center;}
+			.important {font-weight:bold; font-size:30px;}
+			.card {width:20vw; border:1px solid black;}
+			.card_pic_figure {width: 100%; margin:0;}
+			.card_pic {width: 100%;}
+			.card_pic_figure figcaption {margin: 0 10px 0 10px; font-size: .8em;}
+			.card_name_div {text-align: center; font-weight: bold; font-size: 1.5em;}
+			.card_desc_div,
+			.card_bio_div {margin: 15px;}
+		</style>
+	</head>
+	<body>
+	
+	<div id="app">
+		<span v-if="!profile">
+			No Profile Data found.
+		</span>		
+		<div v-if="profile" class="card">
+			<figure v-if="profile.pic" class="card_pic_figure">
+				<img :src="`/images/${profile.pic}`" class="card_pic" :alt="`Photo of ${profile.fname} ${profile.lname}`"/>
+				<figcaption>Photo of {{profile.fname}} {{profile.lname}}</figcaption>
+			</figure>
+			<figure v-else class="card_pic_figure">
+				<img src="/images/noimage.svg" class="card_pic" alt="No photo available" />
+				<figcaption>No photo available</figcaption>
+			</figure>
+			<div class="card_name_div">
+				<p>{{ profile.fname }} {{ profile.lname }}</p>
+			</div>
+			<div v-if="profile.desc" class="card_desc_div">
+				<p>{{ profile.desc }}</p>
+			</div>
+			<div v-else class="card_desc_div">
+				<p>No description available</p>
+			</div>
+			<div v-if="profile.bio" class="card_bio_div">
+				<p>{{ profile.bio }}</p>
+			</div>
+			<div v-else class="card_bio_div">
+				<p>No bio available</p>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+		el: '#app',
+		
+		data:{
+
+			profile:{
+				fname: "Gord",
+				lname: "Mok",
+				desc: "Web Developer",
+				bio: "Carpe diem.",
+				pic: "face.jpg"
+			}
+
+		}
+		
+	});
+	</script>
+	
+		<!--
+		//step 1: Read Code Above
+		//step 2: Does the profile show up?
+		
+		v-if="boolean_expression"
+		v-else-if="boolean_expression"
+		v-else
+		
+		
+		You can code an if, else if, else statement into your render using the v-if, v-else-if, v-else.
+		Just like in regular programming, v-else has no condition
+		
+		Notice how the "profile" object is null. Reminder that null is Falsey in the boolean context.
+		
+		ASYNCHRONOUS LEARNING EXERCISE
+		1. Use the profile object to store information about yourself {fname, lname, desc, bio, pic}
+		2. Create a figure, figcaption, and image markup which acts as a description for yourself
+			(Something like this https://www.w3schools.com/howto/howto_css_cards.asp)
+		3. Write conditionals if information is missing (i.e. 'no bio available' if bio is blank, generic image if no pic is found)
+		-->
+	</body>
+</html>
+<!-- I think this needs moar v-if directives -->

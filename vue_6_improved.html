@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Vue Components</title>
+		<meta charset="UTF-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.circle{border-radius:50%; background:Grey; border:1px solid #ccc; display:inline-block;}
+		</style>
+	</head>
+	<body>
+	
+	<div id="app">
+		<orb v-bind:radius="40" v-bind:color="'white'"></orb>
+		<orb 
+			v-for="orb in orbs"
+			v-bind:radius="orb.radius"
+			v-bind:color="orb.color"
+			v-bind:key="orb.id"
+			v-bind:y_value="orb.yValue"
+			v-bind:x_value="orb.xValue">
+		</orb>
+	</div>
+	
+	<script>
+	Vue.component('orb',{
+		props:['radius','color', 'y_value', 'x_value'],	
+		template:
+		`<span 
+			v-bind:class="'circle'" 
+			v-bind:style="{'width':radius+'px', 'height':radius+'px', 'background':color, 'position':'absolute', 'top':y_value+'px', 'left':x_value+'px'}"
+			v-on:click="prompt();">
+		</span>`,
+		methods:{
+			prompt:function(){
+				alert('You clicked the '+this.color+' circle!');	
+				this.color='none';
+			}	
+		},
+
+	
+	});
+	
+	var app = new Vue({
+		el: '#app',
+		
+		data:{
+
+		},
+		methods: {
+			// Function to generate a random y-axis value within the confines of the screen height, to be used for placing each orb on the screen in a random location
+			yValue: function() {
+				const screenHeight = window.innerHeight;
+				const randomYValue = Math.floor((Math.random() * (screenHeight - 100)) + 50); // Extra math operations are to keep the orbs away from the screen edge
+				return randomYValue;
+			},
+
+			// Function to generate a random x-axis value within the confines of the screen width, to be used for placing each orb on the screen in a random location
+			xValue: function() {
+				const screenWidth = window.innerWidth;
+				const randomXValue = Math.floor((Math.random() * (screenWidth - 100)) + 50); // Extra math operations are to keep the orbs away from the screen edge
+				return randomXValue;
+			}
+		},
+
+		computed: {
+			orbs: function() {
+				const orbArray = [
+					{id:1, radius:10, color:'green', xValue: this.xValue(), yValue: this.yValue()},
+					{id:2, radius:15, color:'purple', xValue: this.xValue(), yValue: this.yValue()},
+					{id:3, radius:20, color:'black', xValue: this.xValue(), yValue: this.yValue()},
+					{id:4, radius:25, color:'blue', xValue: this.xValue(), yValue: this.yValue()},
+					{id:5, radius:30, color:'orange', xValue: this.xValue(), yValue: this.yValue()},
+					{id:6, radius:35, color:'yellow', xValue: this.xValue(), yValue: this.yValue()},
+					{id:7, radius:45, color:'red', xValue: this.xValue(), yValue: this.yValue()}
+				];
+
+				return orbArray;
+			}
+		}
+		
+	});
+	</script>
+	<!--
+		Step 1: Run the code above!
+		
+		Vue "Components" are tricky to get the hang of. Practice!
+		The idea is to atomize each element of the app into tiny, reusable components
+		Each compoment can be customized with the use of "props" (properties).
+		The Markup scaffolding is included in the template. Use ` if you want multi-line!
+		
+		The components can have methods as well! The prompt function also can change the component properties
+		
+		Components may also have a data property, just like the app.
+		However, the same problem will occur as with methods. The data defined in the component will apply to all circles.
+		There are ways around this, but for now, it's easier to make your components require data from the app as props.
+		
+		the v-bind:key will force our hand 
+		
+		ASYNCHRONOUS LEARNING EXERCISE
+		1. Make the circles position absolute
+		2. Create two new properties "x" and "y" for each orb
+		3. Pass through values of "x" and "y" in the app to have circles on different spots of the screen
+	
+	-->	
+	</body>
+</html>
